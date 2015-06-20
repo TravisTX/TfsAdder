@@ -1,5 +1,7 @@
 (function () {
     'use strict';
+    var tfsPayloadData = undefined;
+    var currentUsername = undefined;
 
     Init();
 
@@ -8,8 +10,14 @@
         ShowPageActionIcon();
 
         $(document).ready(function () {
+            DiscoverTfsData();
             ApplyEnhancements();
         });
+    }
+
+    function DiscoverTfsData() {
+        tfsPayloadData = JSON.parse($('#taskboard script')[0].text).payload.data;
+        currentUsername = $('li[command = \'user\']').text();
     }
 
     function ApplyEnhancements() {
@@ -35,8 +43,6 @@
 
     function AddRowStyles() {
         if (UrlContains('taskboard')) {
-            var tfsPayloadData = JSON.parse($('#taskboard script')[0].text).payload.data;
-
             var $rows = $('td.taskboard-parent.highlight-on-row-change');
             $rows.each(function () {
                 var $row = $(this);
@@ -60,8 +66,6 @@
 
     function AddWiStyles() {
         if (UrlContains('taskboard')) {
-            var tfsPayloadData = JSON.parse($('#taskboard script')[0].text).payload.data;
-            var username = $('li[command = \'user\']').text();
 
             var $cards = $('.tbTile');
             $cards.each(function () {
@@ -75,14 +79,14 @@
                     'border-left-color': colors.dark
                 });
                 $card.attr('title', activity);
-                AddSelfStyles($card, username);
+                AddSelfStyles($card);
             });
         }
     }
 
-    function AddSelfStyles($card, username) {
+    function AddSelfStyles($card) {
         var cardUsername = $card.find('.witAssignedTo').text();
-        if (username === cardUsername) {
+        if (currentUsername === cardUsername) {
             $card.css({
                 'font-weight': 'bold'
             });
