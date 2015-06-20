@@ -48,27 +48,13 @@
             var $rows = $('td.taskboard-parent.highlight-on-row-change');
             $rows.each(function () {
                 var $row = $(this);
-                var rowId = $row.attr('id').substr(17); // todo: smarter way to find the id here.
-                //$row.find(".witTitle").text("test");
-                var rowType = tfsPayloadData[rowId][1]; // todo: smarter way to do the magic index here.
-
-                $row.siblings('.taskboard-expander').css({
-                    'background-color': RowTypeToColor(rowType),
-                    'border-top': '5px solid white',
-                    'border-bottom': '5px solid white'
-                });
-
-                $row.css({
-                    'padding-left': '5px'
-                });
-                $row.attr('title', rowType);
+                StyleRow($row);
             });
         }
     }
 
     function AddWiStyles() {
         if (UrlContains('taskboard')) {
-
             var $cards = $('.tbTile');
             $cards.each(function () {
                 var $card = $(this);
@@ -89,6 +75,22 @@
     function OnCardFocused() {
         var $card = $(this);
         StyleCard($card);
+    }
+    
+    function StyleRow($row) {
+        var rowId = $row.attr('id').substr(17); // todo: smarter way to find the id here.
+        var rowType = tfsPayloadData[rowId][1]; // todo: smarter way to do the magic index here.
+
+        $row.siblings('.taskboard-expander').css({
+            'background-color': RowTypeToColor(rowType),
+            'border-top': '5px solid white',
+            'border-bottom': '5px solid white'
+        });
+
+        $row.css({
+            'padding-left': '5px'
+        });
+        $row.attr('title', rowType);
     }
 
     function StyleCard($card) {
