@@ -1,13 +1,27 @@
 'use strict';
 
-$(document).ready(function() {
-	ApplyEnhancements();
-});
+Init();
+
+function Init() {
+    ShowPageActionIcon();
+
+    $(document).ready(function() {
+        ApplyEnhancements();
+    });
+}
 
 function ApplyEnhancements() {
 	AddNewLink();
 	AddRowStyles();
 	AddWiStyles();
+}
+
+function ShowPageActionIcon() {
+    // inform the backgrund page that this tab should have a page-action
+    chrome.runtime.sendMessage({
+        from: 'content',
+        subject: 'showPageAction'
+    });
 }
 
 function AddNewLink() {
