@@ -13,7 +13,8 @@
             DiscoverTfsData();
             ApplyEnhancements();
         });
-        
+
+        $(document).on('focus', 'td.taskboard-parent.highlight-on-row-change', OnRowFocused);
         $(document).on('focus', '.tbTile', OnCardFocused);
     }
 
@@ -69,14 +70,26 @@
             $card.css({
                 'font-weight': 'bold'
             });
+        } else {
+            $card.css({
+                'font-weight': 'normal'
+            });
         }
+    }
+
+    function OnRowFocused() {
+        var $row = $(this);
+        // without settimeout of 1ms, this gets overwritten by TFS.
+        setTimeout(function () {
+            StyleRow($row);
+        }, 1);
     }
 
     function OnCardFocused() {
         var $card = $(this);
         StyleCard($card);
     }
-    
+
     function StyleRow($row) {
         var rowId = $row.attr('id').substr(17); // todo: smarter way to find the id here.
         var rowType = tfsPayloadData[rowId][1]; // todo: smarter way to do the magic index here.
@@ -90,7 +103,16 @@
         $row.css({
             'padding-left': '5px'
         });
+        
+        // tooltip
         $row.attr('title', rowType);
+
+        // description
+        var currentTitle = $row.find(".witTitle").text();
+        if (currentTitle.indexOf(rowId) !== 0) {
+            var newTitle = rowId + ': ' + currentTitle;
+            $row.find(".witTitle").text(newTitle);
+        }
     }
 
     function StyleCard($card) {
@@ -102,7 +124,17 @@
             'background-color': colors.light,
             'border-left-color': colors.dark
         });
+        
+        // tooltip
         $card.attr('title', activity);
+        
+        // description
+        var currentTitle = $card.find('.witTitle').text();
+        if (currentTitle.indexOf(cardId) !== 0) {
+            var newTitle = cardId + ': ' + currentTitle;
+            $card.find('.witTitle').text(newTitle);
+        }
+        
         AddSelfStyles($card);
     }
 
