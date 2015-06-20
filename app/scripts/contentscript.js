@@ -13,6 +13,8 @@
             DiscoverTfsData();
             ApplyEnhancements();
         });
+        
+        $(document).on('focus', '.tbTile', OnCardFocused);
     }
 
     function DiscoverTfsData() {
@@ -70,16 +72,7 @@
             var $cards = $('.tbTile');
             $cards.each(function () {
                 var $card = $(this);
-                var cardId = $card.attr('id').substr(5); // todo: smarter way to find the id here.
-                var activity = tfsPayloadData[cardId][7]; // todo: smarter way to do the magic index here.
-
-                var colors = ActivityToColor(activity);
-                $card.find('.tbTileContent').css({
-                    'background-color': colors.light,
-                    'border-left-color': colors.dark
-                });
-                $card.attr('title', activity);
-                AddSelfStyles($card);
+                StyleCard($card);
             });
         }
     }
@@ -91,7 +84,24 @@
                 'font-weight': 'bold'
             });
         }
+    }
 
+    function OnCardFocused() {
+        var $card = $(this);
+        StyleCard($card);
+    }
+
+    function StyleCard($card) {
+        var cardId = $card.attr('id').substr(5); // todo: smarter way to find the id here.
+        var activity = tfsPayloadData[cardId][7]; // todo: smarter way to do the magic index here.
+
+        var colors = ActivityToColor(activity);
+        $card.find('.tbTileContent').css({
+            'background-color': colors.light,
+            'border-left-color': colors.dark
+        });
+        $card.attr('title', activity);
+        AddSelfStyles($card);
     }
 
     function UrlContains(match) {
