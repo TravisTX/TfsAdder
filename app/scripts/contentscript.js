@@ -3,6 +3,7 @@
 Init();
 
 function Init() {
+    console.log('TFS Adder is acting on this page');
     ShowPageActionIcon();
 
     $(document).ready(function () {
@@ -33,7 +34,6 @@ function AddNewLink() {
 
 function AddRowStyles() {
     if (UrlContains('taskboard')) {
-        console.log('doin row styles');
         var tfsPayloadData = JSON.parse($('#taskboard script')[0].text).payload.data;
 
         var $rows = $('td.taskboard-parent.highlight-on-row-change');
@@ -59,8 +59,8 @@ function AddRowStyles() {
 
 function AddWiStyles() {
     if (UrlContains('taskboard')) {
-        console.log('doin wi styles');
         var tfsPayloadData = JSON.parse($('#taskboard script')[0].text).payload.data;
+        var username = $('li[command = \'user\']').text();
 
         var $cards = $('.tbTile');
         $cards.each(function () {
@@ -74,8 +74,19 @@ function AddWiStyles() {
                 'border-left-color': colors.dark
             });
             $card.attr('title', activity);
+            AddSelfStyles($card, username);
         });
     }
+}
+
+function AddSelfStyles($card, username) {
+    var cardUsername = $card.find('.witAssignedTo').text();
+    if (username === cardUsername) {
+        $card.css({
+            'font-weight': 'bold'
+        });
+    }
+
 }
 
 function UrlContains(match) {
