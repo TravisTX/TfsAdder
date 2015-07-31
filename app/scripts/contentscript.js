@@ -38,11 +38,11 @@
     }
 
     function AddNewLink() {
-        var regEx = new RegExp(/\/([^\/]+)\/_(backlogs|_workitems)\//)
+        var regEx = new RegExp(/\/([^\/]+)\/([^\/]+)\/_(backlogs|_workitems)\//)
 		var regExResults = regEx.exec(document.URL.toLowerCase());
 		if(regExResults !== null){
-			$('.hubs-section ul').append('<li><a href="/tfs/DefaultCollection/' + regExResults[1] + '/_workItems/create/Product%20Backlog%20Item">+ New PBI</a></li>');
-			$('.hubs-section ul').append('<li><a href="/tfs/DefaultCollection/' + regExResults[1] + '/_workItems/create/Bug">+ New Bug</a></li>');	
+			$('.hubs-section ul').append('<li><a href="/tfs/' + regExResults[1] + '/' + regExResults[2] + '/_workItems/create/Product%20Backlog%20Item">+ New PBI</a></li>');
+			$('.hubs-section ul').append('<li><a href="/tfs/' + regExResults[1] + '/' + regExResults[2] + '/_workItems/create/Bug">+ New Bug</a></li>');	
 		}
     }
 
