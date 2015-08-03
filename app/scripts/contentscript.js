@@ -19,7 +19,10 @@
     }
 
     function DiscoverTfsData() {
-        tfsPayloadData = JSON.parse($('#taskboard script')[0].text).payload.data;
+        var tfsPayloadScript = $('#taskboard script')[0];
+        if (tfsPayloadScript) {
+            tfsPayloadData = JSON.parse(tfsPayloadScript.text).payload.data;
+        }
         currentUsername = $('li[command = \'user\']').text();
     }
 
