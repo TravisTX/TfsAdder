@@ -44,8 +44,9 @@
         var regEx = new RegExp(/\/([^\/]+)\/([^\/]+)\/_(backlogs|workitems)/);
 		var regExResults = regEx.exec(document.URL.toLowerCase());
 		if(regExResults !== null){
+            $('.hubs-section ul').append('<li><a href="/tfs/' + regExResults[1] + '/' + regExResults[2] + '/_backlogs/taskboard#_a=requirements">Current Sprint Board</a></li>');
 			$('.hubs-section ul').append('<li><a href="/tfs/' + regExResults[1] + '/' + regExResults[2] + '/_workItems/create/Product%20Backlog%20Item">+ New PBI</a></li>');
-			$('.hubs-section ul').append('<li><a href="/tfs/' + regExResults[1] + '/' + regExResults[2] + '/_workItems/create/Bug">+ New Bug</a></li>');	
+			$('.hubs-section ul').append('<li><a href="/tfs/' + regExResults[1] + '/' + regExResults[2] + '/_workItems/create/Bug">+ New Bug</a></li>');
 		}
     }
 
@@ -108,7 +109,7 @@
         $row.css({
             'padding-left': '5px'
         });
-        
+
         // tooltip
         $row.attr('title', rowType);
 
@@ -129,17 +130,17 @@
             'background-color': colors.light,
             'border-left-color': colors.dark
         });
-        
+
         // tooltip
         $card.attr('title', activity);
-        
+
         // description
         var currentTitle = $card.find('.witTitle').text();
         if (currentTitle.indexOf(cardId) !== 0) {
             var newTitle = cardId + ': ' + currentTitle;
             $card.find('.witTitle').text(newTitle);
         }
-        
+
         AddSelfStyles($card);
     }
 
